@@ -32,6 +32,8 @@ def get_count_clicks(token, url):
 
 
 def is_shorten_link(token, url):
+    if urlparse(url).netloc != "vk.cc":
+        return False
     method_url = "https://api.vk.com/method/utils.getLinkStats"
     params = {
         "access_token": token,
@@ -44,8 +46,7 @@ def is_shorten_link(token, url):
     response_data = response.json()
     if "response" in response_data and response_data["response"]:
         return True
-    else:
-        return False
+    return False
 
 
 if __name__ == '__main__':
