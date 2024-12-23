@@ -32,20 +32,18 @@ def get_count_clicks(token, url):
 
 
 def is_shorten_link(token, url):
-    if urlparse(url).netloc != "vk.cc":
-        return False
-    method_url = "https://api.vk.com/method/utils.getLinkStats"
-    params = {
-        "access_token": token,
-        "key": urlparse(url).path[1:],
-        "v": "5.199",
-        "interval": "forever"
-    }
-    response = requests.get(method_url, params=params)
-    response.raise_for_status()
-    response_data = response.json()
-    if "response" in response_data and response_data["response"]:
-        return True
+    if urlparse(url).netloc == "vk.cc":
+        method_url = "https://api.vk.com/method/utils.getLinkStats"
+        params = {
+            "access_token": token,
+            "key": urlparse(url).path[1:],
+            "v": "5.199",
+            "interval": "forever"
+        }
+        response = requests.get(method_url, params=params)
+        response.raise_for_status()
+        response_data = response.json()
+        return "response" in response_data and response_data["response"]
     return False
 
 
@@ -58,8 +56,8 @@ if __name__ == '__main__':
             count_clicks = get_count_clicks(vk_token, url)
         except requests.exceptions.HTTPError as http_err:
             print(f"Произошла ошибка HTTP: {http_err}")
-        except KeyError as key_err:
-            print(f"Ответ не содержит ожидаемых данных. Ошибка: {key_err}")
+        except KeyError:
+            print(f"Ответ не содержит ожидаемых данных.")
         else:
             print(count_clicks)
     else:
@@ -67,7 +65,7 @@ if __name__ == '__main__':
             short_url = shorten_link(vk_token, url)
         except requests.exceptions.HTTPError as http_err:
             print(f"Произошла ошибка HTTP: {http_err}")
-        except KeyError as key_err:
+        except KeyError:
             print(f"Ответ не содержит ожидаемых данных.")
         else:
             print(short_url)
