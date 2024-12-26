@@ -2,6 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 from urllib.parse import urlparse
+import argparse
 
 
 def shorten_link(token, url):
@@ -50,7 +51,10 @@ def is_shorten_link(token, url):
 if __name__ == '__main__':
     load_dotenv()
     vk_token = os.environ["VK_TOKEN"]
-    url = input("Введите URL:")
+    parser = argparse.ArgumentParser(description='Сокращение URL и получение статистики кликов.')
+    parser.add_argument('url', type=str, help='URL для сокращения или статистики кликов.')
+    args = parser.parse_args()
+    url = args.url
     if is_shorten_link(vk_token, url):
         try:
             count_clicks = get_count_clicks(vk_token, url)
