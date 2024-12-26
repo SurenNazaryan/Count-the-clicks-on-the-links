@@ -34,7 +34,7 @@ pip install requests python-dotenv
 
 7. **Настройте переменные окружения**: Создайте файл `.env` в корневом каталоге проекта и добавьте ваш токен доступа ВКонтакте:
 ```bash
-VK_TOKEN=your_vk_access_token
+VK_TOKEN=ваш_вк_токен
 ```
 Получить токен можно, следуя [инструкциям ВКонтакте](https://dev.vk.com/ru/api/access-token/getting-started?ref=old_portal).
 
